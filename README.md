@@ -21,5 +21,5 @@ This project is an AI-driven medical dashboard designed to predict health condit
 4. Visit `http://127.0.0.1:5000` in your browser.
 
 ### Dashboard Preview
-![App Screenshot]([URL_OF_YOUR_IMAGE_HERE](https://github.com/Puseletso24/Med-AI-Predictor/commit/e13da2df27403fe465bf6cbf05df146b8f417d77))
+![App Screenshot](https://github.com/Puseletso24/Med-AI-Predictor/blob/main/Screenshot%20(259).png)
 
