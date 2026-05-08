@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <title>Analytics | Med AI</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700&display=swap');
+
+        body {
+            background: radial-gradient(120% 100% at 50% 10%, #060b28 40%, #0a0e23 100%);
+            color: #fff;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .glass-card {
+            background: linear-gradient(127.09deg, rgba(6, 11, 40, 0.94) 19.41%, rgba(10, 14, 35, 0.49) 76.65%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+        }
+
+        .navbar {
+            background: rgba(6, 11, 40, 0.5);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link { color: rgba(255,255,255,0.6) !important; }
+        .nav-link.active { color: #fff !important; font-weight: 700; }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #ffffff; /* Forced white for visibility */
+        }
+
+        .icon-box {
+            width: 45px;
+            height: 45px;
+            background: #0075ff;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0px 4px 15px rgba(0, 117, 255, 0.4);
+        }
+
+        .chart-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #0075ff; /* Primary blue for clear visibility */
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .text-muted { color: rgba(255, 255, 255, 0.7) !important; }
+
+        /* Customize Plotly tooltips */
+        .hoverlayer .hovertext rect { fill: #0b1437 !important; stroke: #0075ff !important; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark sticky-top mb-4">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#">MED <span style="color: #0075ff;">AI</span></a>
+        <div class="navbar-nav ms-auto">
+            <a class="nav-link px-3" href="/">Dashboard</a>
+            <a class="nav-link px-3 active" href="/insights">Insights</a>
+            <a class="nav-link px-3" href="/predict">Predictor</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <!-- Top Stats -->
+    <div class="row g-4 mb-4">
+        <div class="col-md-4">
+            <div class="glass-card p-3 d-flex align-items-center">
+                <div class="icon-box me-3"><i class="bi bi-wallet2 text-white"></i></div>
+                <div>
+                    <small class="text-muted d-block">Total Records</small>
+                    <span class="stat-value">{{ stats.total }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="glass-card p-3 d-flex align-items-center">
+                <div class="icon-box me-3" style="background: #0075ff;"><i class="bi bi-star-fill text-white"></i></div>
+                <div>
+                    <small class="text-muted d-block">Avg Rating</small>
+                    <span class="stat-value">{{ stats.avg_rating }}/10</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="glass-card p-3 d-flex align-items-center">
+                <div class="icon-box me-3" style="background: #0075ff;"><i class="bi bi-globe text-white"></i></div>
+                <div>
+                    <small class="text-muted d-block">Top Condition</small>
+                    <span class="stat-value" style="font-size: 1.2rem;">{{ stats.top_condition }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row 1 -->
+    <div class="row g-4 mb-4">
+        <div class="col-lg-7">
+            <div class="glass-card p-4">
+                <p class="chart-title">Review Distribution Overview</p>
+                <div id="chart1"></div>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="glass-card p-4">
+                <p class="chart-title">Patient Satisfaction Rate</p>
+                <div id="chart2"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row 2 -->
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="glass-card p-4">
+                <p class="chart-title">Sentiment Analysis by Category</p>
+                <div id="chart3"></div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="glass-card p-4">
+                <p class="chart-title">Review Length vs Patient Experience</p>
+                <div id="chart4"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // CRITICAL: Forces all chart text to white
+    const darkLayout = {
+        paper_bgcolor: 'rgba(0,0,0,0)',
+        plot_bgcolor: 'rgba(0,0,0,0)',
+        font: { color: '#ffffff', family: 'Plus Jakarta Sans' },
+        margin: { t: 10, b: 40, l: 40, r: 10 },
+        xaxis: { gridcolor: 'rgba(255,255,255,0.1)', zeroline: false, tickfont: {color: '#ffffff'} },
+        yaxis: { gridcolor: 'rgba(255,255,255,0.1)', zeroline: false, tickfont: {color: '#ffffff'} },
+        legend: { font: { color: '#ffffff' } }
+    };
+
+    const config = { responsive: true, displayModeBar: false };
+
+    function renderVisionPlot(id, graphData) {
+        let layout = { ...graphData.layout, ...darkLayout };
+
+        if (graphData.data[0].type === 'pie') {
+            graphData.data[0].marker = { colors: ['#0075ff', '#2cd9ff', '#b456ff'] };
+        } else {
+            graphData.data.forEach(trace => {
+                trace.marker = trace.marker || {};
+                if(!trace.marker.color) trace.marker.color = '#0075ff';
+            });
+        }
+
+        Plotly.newPlot(id, graphData.data, layout, config);
+    }
+
+    renderVisionPlot('chart1', {{ graph1 | safe }});
+    renderVisionPlot('chart2', {{ graph2 | safe }});
+    renderVisionPlot('chart3', {{ graph3 | safe }});
+    renderVisionPlot('chart4', {{ graph4 | safe }});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,109 @@
+.text-primary { color: #1977cc !important; }
+.bg-primary { background-color: #1977cc !important; }
+
+.btn-info { background-color: #1977cc; border: none; }
+.btn-info:hover { background-color: #3291e6; }
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.form-control {
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    padding: 15px;
+}
+#chart1, #chart2, #chart3, #chart4 {
+    min-height: 450px;
+    margin-bottom: 30px;
+    border-radius: 15px;
+    padding: 20px;
+}
+:root {
+    --med-blue: #0056b3;
+    --light-blue: #f0f7ff;
+    --accent-blue: #0dcaf0;
+    --dark-text: #2c3e50;
+ /* Professional Blue Gradient Palette */
+    --primary-gradient: linear-gradient(135deg, #0052D4 0%, #4364F7 50%, #6FB1FC 100%);
+    --nav-active: #ffffff;
+    --nav-inactive: rgba(255, 255, 255, 0.7);
+    --card-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+    background-color: var(--med-blue);
+    border: none;
+    padding: 12px 30px;
+    border-radius: 5px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #004494;
+    transform: translateY(-2px);
+}
+
+.shadow-lg {
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+}
+
+.text-primary {
+    color: var(--med-blue) !important;
+}
+
+/* For the charts in Insights */
+#chart1, #chart2, #chart3, #chart4 {
+    border-radius: 15px;
+    overflow: hidden;
+}
+/* style.css */
+body {
+    font-family: 'Poppins', sans-serif; /* Modern, clean font */
+    background-color: #f4f7f9;
+}
+
+/* HIGH VISIBILITY NAVBAR */
+.navbar {
+    background: var(--primary-gradient) !important;
+    padding: 1.2rem 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+}
+
+.nav-link {
+    font-weight: 700 !important; /* Make links bold and visible */
+    color: var(--nav-inactive) !important;
+    font-size: 1.1rem;
+    margin: 0 10px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.nav-link:hover, .nav-link.active {
+    color: var(--nav-active) !important;
+    transform: scale(1.05);
+}
+
+/* LIVELY GRADIENT BUTTONS */
+.btn-primary {
+    background: var(--primary-gradient) !important;
+    border: none !important;
+    border-radius: 50px !important; /* Pill shape for modern look */
+    padding: 12px 35px !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 15px rgba(67, 100, 247, 0.4);
+}
+
+/* DASHBOARD CARDS */
+.card {
+    border: none !important;
+    border-radius: 20px !important;
+    box-shadow: var(--card-shadow);
+}
